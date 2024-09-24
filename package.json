@@ -1,0 +1,34 @@
+{
+  "name": "electron-print",
+  "version": "1.0.0",
+  "description": "Electron打印功能扩展，UI仿照Edge",
+  "scripts": {
+    "dev": "electron-webpack dev",
+    "build": "electron-webpack && electron-builder"
+  },
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SunRisingChang/electron-print.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SunRisingChang/electron-print/issues"
+  },
+  "homepage": "https://github.com/SunRisingChang/electron-print#readme",
+  "dependencies": {
+    "source-map-support": "0.5.21"
+  },
+  "engines": {
+    "node": ">10 <16"
+  },
+  "devDependencies": {
+    "electron": "22.3.27",
+    "electron-builder": "22.4.1",
+    "electron-webpack": "2.8.2",
+    "pdf-lib": "1.17.1",
+    "iconv-lite": "0.4.24",
+    "webpack": "4.42.1"
+  }
+}

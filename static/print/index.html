@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print</title>
+    <script src="./js/MessageChannelRendererAdvice.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <link rel="stylesheet" href="./css/element-ui.min.css">
+    <script src="./js/element-ui.min.js"></script>
+    <link rel="stylesheet" href="./css/index.css?t=12334">
+</head>
+
+<body>
+    <div id="app">
+        <div class="left">
+            <div class="head">
+                <div class="title">打印</div>
+                <div class="pages">总数：{{total}} 纸张</div>
+            </div>
+            <div class="main">
+                <div class="row">
+                    <div class="label">打印机</div>
+                    <div class="value">
+                        <el-select v-model="deviceID" @change="onDeviceIDChange">
+                            <el-option v-for="item in printers" :key="item.DeviceID" :label="item.DeviceID"
+                                :value="item.DeviceID">
+                            </el-option>
+                        </el-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="label">份数</div>
+                    <div class="value">
+                        <el-input-number v-model="copies" :min="1" :max="999"></el-input-number>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="label marin-0">布局</div>
+                    <div class="value">
+                        <div class="radio-group">
+                            <el-radio-group v-model="landscape" @change="onFormChange">
+                                <el-radio :label="false">纵向</el-radio>
+                                <el-radio :label="true">横向</el-radio>
+                            </el-radio-group>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="label marin-0">页面</div>
+                    <div class="value">
+                        <div class="radio-group">
+                            <el-radio-group v-model="pageRangesType" @change="onFormChange">
+                                <el-radio label="1">全部</el-radio>
+                                <el-radio label="2">
+                                    <el-input @focus="pageRangesType='2'" v-model="pagesString"
+                                        placeholder="例如1-5、8、11-13" @change="onPagesStringChange"></el-input>
+                                </el-radio>
+                            </el-radio-group>
+                        </div>
+                    </div>
+                    <div v-show="pagesStringError" class="error margin-left-24">请使用有效的页面范围，例如1-5、8、11-13</div>
+                </div>
+                <div class="row" v-show="isDuplex">
+                    <div class="label">双面打印</div>
+                    <div class="value">
+                        <el-select v-model="duplexMode">
+                            <el-option v-for="item in duplexModeOption" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </div>
+                </div>
+                <div class="row" v-if="isColor">
+                    <div class="label">颜色</div>
+                    <div class="value">
+                        <el-select v-model="color">
+                            <el-option v-for="item in colorOption" :key="item.value" :label="item.label"
+                                :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </div>
+                </div>
+                <p v-show="!isMore" @click="isMore=!isMore" class="link-btn">
+                    显示更多设置<i class="el-icon-arrow-down"></i>
+                </p>
+                <p v-show="isMore" @click="isMore=!isMore" class="link-btn">
+                    显示更少设置<i class="el-icon-arrow-up"></i>
+                </p>
+                <template v-if="isMore">
+                    <div class="row">
+                        <div class="label">纸张大小</div>
+                        <div class="value">
+                            <el-select v-model="pageSize" @change="onFormChange">
+                                <el-option v-for="item in pageSizes" :key="item.value" :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="label marin-0">缩放(%)</div>
+                        <div class="value">
+                            <div class="radio-group">
+                                <el-radio-group v-model="scaleFactorType" @change="onFormChange">
+                                    <el-radio label="1">实际大小</el-radio>
+                                    <el-radio label="2">
+                                        <el-input-number @focus="scaleFactorType='2'" v-model="scaleFactor"
+                                            @change="onFormChange" :step="10" :min="10" :max="200"></el-input-number>
+                                    </el-radio>
+                                </el-radio-group>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="label">每张纸打印的页数</div>
+                        <div class="value">
+                            <el-select v-model="pagesPerSheet">
+                                <el-option v-for="item in pagesPerSheetOption" :key="item" :label="item" :value="item">
+                                </el-option>
+                            </el-select>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="label">边距</div>
+                        <div class="value">
+                            <el-select v-model="marginType" @change="onFormChange">
+                                <el-option v-for="item in marginsOption" :key="item.value" :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </div>
+                    </div>
+                    <div v-show="marginType=='custom'" class="row margin-option">
+                        <div class="col">
+                            <span>顶部</span>
+                            <el-input v-model.number="marginTop" @change="onFormChange"></el-input>
+                        </div>
+                        <div class="col">
+                            <span>底部</span>
+                            <el-input v-model.number="marginBottom" @change="onFormChange"></el-input>
+                        </div>
+                        <div class="col">
+                            <span>左</span>
+                            <el-input v-model.number="marginLeft" @change="onFormChange"></el-input>
+                        </div>
+                        <div class="col">
+                            <span>右</span>
+                            <el-input v-model.number="marginRigth" @change="onFormChange"></el-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="label marin-0">选项</div>
+                        <div class="value">
+                            <div class="checkbox-group">
+                                <el-checkbox v-model="displayHeaderFooter" @change="onFormChange">页眉和页脚</el-checkbox>
+                                <el-checkbox v-model="printBackground" @change="onFormChange">背景图形</el-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <p class="link-btn" @click="handleCallSystemPrint">
+                    使用系统对话框打印...(Ctrl+Shift+P)
+                </p>
+            </div>
+            <div class="foot">
+                <button :disabled="isDisabledPrint" @click="handleOk">{{okButtonText}}</button>
+                <button @click="handleCancel">取消</button>
+            </div>
+        </div>
+        <div class="right" :class="{grayscale:!color}">
+            <iframe v-if="!isLoading" id="print-preview" :src="pdfUrl"></iframe>
+            <div v-show="isLoading" class="mark">
+                <div class="loading"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/index.js"></script>
+</body>
+
+</html>

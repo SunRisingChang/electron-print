@@ -1,0 +1,226 @@
+html,
+body,
+#app {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#app {
+    display: flex;
+    flex-wrap: nowrap;
+    position: relative;
+}
+
+#app .left {
+    width: 300px;
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#app .left .head {
+    padding: 20px;
+    flex-shrink: 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+#app .left .head .title {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+#app .left .head .pages {
+    font-size: 14px;
+}
+
+#app .left .main {
+    flex-grow: 1;
+    overflow: auto;
+    padding: 0px 24px;
+    box-sizing: border-box;
+}
+
+#app .left .main .row {
+    margin-top: 16px;
+    margin-bottom: 20px;
+}
+
+#app .left .main .row .value .el-select {
+    width: 100%;
+}
+
+#app .left .main .row .value .radio-group {
+    display: flex;
+    flex-direction: column;
+}
+
+#app .left .main .row .value .radio-group .el-radio {
+    line-height: 35px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+#app .left .main .row .value .radio-group .el-radio .el-radio__label {
+    flex-grow: 1;
+}
+
+#app .left .main .row .label {
+    cursor: default;
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+#app .left .main .link-btn {
+    font-size: 12px;
+    line-height: 20px;
+    color: #0078D4;
+    fill: #0078D4;
+    cursor: pointer;
+}
+
+#app .left .main .row .value .checkbox-group {
+    display: flex;
+    flex-direction: column;
+}
+
+#app .left .main .row .value .checkbox-group .el-checkbox {
+    line-height: 35px;
+    margin: 0;
+}
+
+#app .left .main .link-btn:hover {
+    text-decoration: underline;
+}
+
+#app .left .main .link-btn i {
+    margin-left: 3px;
+}
+
+#app .left .main .margin-option {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: auto auto;
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+}
+
+#app .left .main .margin-option .col span {
+    margin-bottom: 5px;
+    font-size: 12px;
+
+}
+
+.marin-0 {
+    margin: 0 !important;
+}
+
+#app .left .foot {
+    flex-shrink: 0;
+    padding: 20px;
+    display: flex;
+    border-top: 1px solid #e0e0e0;
+}
+
+#app .left .foot button {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    font-weight: bold;
+    color: #2b2b2b;
+    background-color: #ededed;
+    cursor: pointer;
+}
+
+#app .left .foot button:nth-child(1) {
+    margin-right: 10px;
+    background-color: #0078d4;
+    color: #fff;
+}
+
+#app .right {
+    flex-grow: 1;
+    overflow: auto;
+    display: flex;
+    background-color: #e6e6e6;
+    position: relative;
+}
+
+#app .right .mark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(82 86 89 / 49%);
+}
+
+#app .right .mark .loading {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    border: 4px solid #f7f7f7;
+    border-left-color: #0066b4;
+    border-top-color: #0066b4;
+    border-radius: 50%;
+    animation: rotate 800ms infinite linear;
+}
+
+#print-preview {
+    height: 100%;
+    width: 100%;
+    border-width: 0;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #cdcdcd;
+    border-radius: 4px;
+}
+
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.el-input__inner {
+    border-radius: 0px;
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+button[disabled] {
+    filter: grayscale(80%);
+    cursor: no-drop;
+}
+
+.error {
+    font-size: 12px;
+    color: red;
+}
+
+.margin-left-24 {
+    margin-left: 24px;
+}
+
+.grayscale {
+    filter: grayscale(1);
+}
