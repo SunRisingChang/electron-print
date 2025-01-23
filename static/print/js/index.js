@@ -325,28 +325,30 @@ new Vue({
         this.pagesStringError = false;
         return;
       }
-      if (/^[0-9]*-[0-9]*$/.test(event)) {
-        const [v1, v2] = event.split("-");
-        if (+v2 > +v1 && v1 > 0) {
-          this.onFormChange();
-          this.pagesStringError = false;
-          return;
+      if (!/^(\d+(-\d+)?)(, *\d+(-\d+)?)*$/.test(event)) {
+        this.pagesStringError = true;
+        return;
+      }
+      const pageGroup = event.match(/\d+-\d+/g)
+      if (Array.isArray(pageGroup)) {
+        for (const group of pageGroup) {
+          const page = group.split("-")
+          if (+page[0] > +page[1]) {
+            this.pagesStringError = true;
+            return;
+          }
         }
       }
-      if (/^[0-9]*$/.test(event)) {
-        if (+event > 0) {
-          this.onFormChange();
-          this.pagesStringError = false;
-          return;
-        }
-      }
-      this.pagesStringError = true;
+      this.onFormChange();
+      this.pagesStringError = false;
     },
     handleCancel() {
       mcra.send("do:close");
     },
     handleOk() {
-      mcra.send("do:print", this.createPrintFormData());
+      const fromData = this.createPrintFormData()
+      fromData.scaleFactor = fromData.scaleFactor * 100
+      mcra.send("do:print", fromData);
     },
     onFormChange() {
       this.isLoading = true;
