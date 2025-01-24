@@ -224,3 +224,42 @@ button[disabled] {
 .grayscale {
     filter: grayscale(1);
 }
+
+.el-checkbox__input.is-checked+.el-checkbox__label,
+.el-input-number__decrease:hover,
+.el-input-number__increase:hover,
+.el-radio__input.is-checked+.el-radio__label {
+    color: #2B2B2B;
+}
+
+.el-input-number__decrease:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled),
+.el-input-number__increase:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled),
+.el-range-editor.is-active,
+.el-range-editor.is-active:hover,
+.el-radio__inner:hover,
+.el-select .el-input.is-focus .el-input__inner,
+.el-input__inner:focus {
+    border-color: #929292 !important;
+}
+
+.el-checkbox__input.is-checked .el-checkbox__inner,
+.el-checkbox__input.is-indeterminate .el-checkbox__inner,
+.el-radio__input.is-checked .el-radio__inner {
+    border-color: #929292;
+    background: #929292;
+}
+
+.el-select-dropdown__item.selected {
+    color: #2B2B2B;
+    background-color: #EDEDED;
+}
+
+.el-radio__inner {
+    width: 20px;
+    height: 20px;
+}
+
+.el-radio__inner::after {
+    width: 9px;
+    height: 9px;
+}

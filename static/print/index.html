@@ -61,7 +61,8 @@
                             </el-radio-group>
                         </div>
                     </div>
-                    <div v-show="pagesStringError" class="error margin-left-24">请使用有效的页面范围，例如1-5、8、11-13</div>
+                    <div v-show="pagesStringError" style="display: none;" class="error margin-left-24">
+                        请使用有效的页面范围，例如1-5、8、11-13</div>
                 </div>
                 <div class="row" v-show="isDuplex">
                     <div class="label">双面打印</div>

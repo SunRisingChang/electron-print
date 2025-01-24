@@ -100,10 +100,11 @@ new Vue({
         value: "printableArea",
         label: "最小",
       },
-      {
-        value: "custom",
-        label: "自定义",
-      },
+      // electron 22 单位不确定
+      // {
+      //   value: "custom",
+      //   label: "自定义",
+      // },
     ],
     pagesStringError: false,
     // 打印机配置项
